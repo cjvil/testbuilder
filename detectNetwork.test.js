@@ -148,8 +148,23 @@ describe('Discover', function() {
   it('has a prefix of 6011 and a length of 19', function() {
     expect(detectNetwork('6011123456789012345')).to.equal('Discover');
   });
+  it('has a prefix of 65 and a length of 16', function() {
+    expect(detectNetwork('6512345678901234')).to.equal('Discover');
+  });
+  it('has a prefix of 65 and a length of 19', function() {
+    expect(detectNetwork('6512345678901234567')).to.equal('Discover');
+  });
 
-
+  for(var prefix = 644; prefix <= 649; prefix++) {
+    (function(prefix) {
+      it('has a prefix of ' + prefix + ' and a length of 16', function() {
+        expect(detectNetwork(prefix + '1234567890123')).to.equal('Discover');
+      });
+      it('has a prefix of ' + prefix + ' and a length of 19', function() {
+        expect(detectNetwork(prefix + '1234567890123456')).to.equal('Discover');
+      });
+    }(prefix))
+  }
 });
 
 describe('Maestro', function() {
