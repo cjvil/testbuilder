@@ -140,12 +140,44 @@ describe('MasterCard', function() {
 describe('Discover', function() {
   // Tests without a function will be marked as "pending" and not run
   // Implement these tests (and others) and make them pass!
-  it('has a prefix of 6011 and a length of 16');
-  it('has a prefix of 6011 and a length of 19');
+  var expect = chai.expect;
+
+  it('has a prefix of 6011 and a length of 16', function() {
+    expect(detectNetwork('6011123456789012')).to.equal('Discover');
+  });
+  it('has a prefix of 6011 and a length of 19', function() {
+    expect(detectNetwork('6011123456789012345')).to.equal('Discover');
+  });
+
+
 });
 
 describe('Maestro', function() {
   // Write full test coverage for the Maestro card
+  var expect = chai.expect;
+  var cardNumber = '012345678901234'
+
+  for (var len = 12; len <= 19; len++) {
+    (function(len) {
+      it('has a prefix of 5018 and a length of ' + len.toString(), function() {
+        // confirm that generated number meets length requirements
+        // var num = '5018' + cardNumber.substring(0, len - 4);
+        // console.log(num);
+        // console.log(num.length);
+        expect(detectNetwork( '5018' + cardNumber.substring(0, len - 4) )).to.equal('Maestro');
+      });
+      it('has a prefix of 5020 and a length of ' + len.toString(), function() {
+        expect(detectNetwork( '5020' + cardNumber.substring(0, len - 4) )).to.equal('Maestro');
+      });
+      it('has a prefix of 5038 and a length of ' + len.toString(), function() {
+        expect(detectNetwork( '5038' + cardNumber.substring(0, len - 4) )).to.equal('Maestro');
+      });
+      it('has a prefix of 6304 and a length of ' + len.toString(), function() {
+        expect(detectNetwork( '6304' + cardNumber.substring(0, len - 4) )).to.equal('Maestro');
+      });
+    })(len)
+  }
+
 });
 
 describe('should support China UnionPay')
