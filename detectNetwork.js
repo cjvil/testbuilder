@@ -25,7 +25,7 @@ var detectNetwork = function(cardNumber) {
   }
 
   var isDiscover = function() {
-  	if ([16, 19].includes(cardNumber.length)) {
+  	if (![16, 19].includes(cardNumber.length)) {
   		return false;
   	}
   	if (cardNumber.substring(0, 4) === '6011' || cardNumber.substring(0, 2) === '65' || prefixInRange(644, 649)) {
@@ -34,18 +34,31 @@ var detectNetwork = function(cardNumber) {
   	return false;
 	}
 
+	var isSwitch = function() {
+		var switchPrefixes = ['4903', '4905', '4911', '4936', '564182', '633110', '6333', '6759']; // conflict with visa
+
+		if(![16, 18, 19].includes(cardNumber.length)) {
+			return false;
+		}
+		return switchPrefixes.some(function(element) {
+			return cardNumber.startsWith(element);
+		});
+		return false;
+	}
+
   if (cardNumber.length === 14 && prefixInRange(38, 39)) {
   	return 'Diner\'s Club';
   } else if (cardNumber.length === 15 && ['34', '37'].includes(cardNumber.substring(0, 2))) {
   	return 'American Express';
-  } else if (cardNumber.charAt(0) === '4' && [13, 16, 19].includes(cardNumber.length)) {
-  	return 'Visa';
-  } else if ( prefixInRange(51, 55) && (cardNumber.length === 16) ) {
+  }  else if ( prefixInRange(51, 55) && (cardNumber.length === 16) ) {
   	return 'MasterCard';
   } else if ((cardNumber.length >= 12 && cardNumber.length <= 19) && ['5018', '5020', '5038', '6304'].includes(cardNumber.substring(0, 4))) {
-  	return 'Maestro'
-  } else if (isDiscover) {
+  	return 'Maestro';
+  } else if (isDiscover()) {
   	return 'Discover';
+  } else if (isSwitch()) {
+  	return 'Switch';
+  } else if (cardNumber.charAt(0) === '4' && [13, 16, 19].includes(cardNumber.length)) {
+  	return 'Visa';
   }
-
-};
+ };
