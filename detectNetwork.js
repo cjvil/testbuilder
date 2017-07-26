@@ -33,11 +33,11 @@ var detectNetwork = function(cardNumber) {
 
 
 
-  if (cardNumber.length === 14 && (cardNumber.substring(0, 2) === '38' || cardNumber.substring(0, 2) === '39')) {
+  if (cardNumber.length === 14 && ['38', '39'].includes(cardNumber.substring(0, 2))) {
   	return 'Diner\'s Club';
-  } else if (cardNumber.length === 15 && (cardNumber.substring(0, 2) === '34' || cardNumber.substring(0, 2) === '37')) {
+  } else if (cardNumber.length === 15 && ['34', '37'].includes(cardNumber.substring(0, 2))) {
   	return 'American Express';
-  } else if (cardNumber.charAt(0) === '4' && (cardNumber.length === 13 || cardNumber.length === 16 || cardNumber.length === 19)) {
+  } else if (cardNumber.charAt(0) === '4' && [13, 16, 19].includes(cardNumber.length)) {
   	return 'Visa';
   } else if ( (parseInt(cardNumber.substring(0, 2)) <= 55 && parseInt(cardNumber.substring(0, 2)) >= 51) && (cardNumber.length === 16) ) {
   	return 'MasterCard';
