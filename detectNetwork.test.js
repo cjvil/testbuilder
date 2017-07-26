@@ -84,7 +84,6 @@ describe('Visa', function() {
   //   http://chaijs.com/
   var assert = chai.assert;
  
-
   it('has a prefix of 4 and a length of 13', function() {
     assert(detectNetwork('4123456789012') === 'Visa');
   });
@@ -196,4 +195,21 @@ describe('Maestro', function() {
 });
 
 describe('should support China UnionPay')
-describe('should support Switch')
+
+describe('Switch', function() {
+  var expect = chai.expect;
+  var prefixes = ['4903', '4905', '4911', '4936', '564182', '633110', '6333', '6759'];
+  var cardSuffix = '123456789012345';
+
+  prefixes.forEach(function(prefix) {
+      it('has a prefix of ' + prefix + ' and a length of 16', function() {
+        expect(detectNetwork( prefix + cardSuffix.substring(0, 16 - prefix.length) )).to.equal('Switch');
+      });
+      it('has a prefix of ' + prefix + ' and a length of 18', function() {
+        expect(detectNetwork( prefix + cardSuffix.substring(0, 18 - prefix.length) )).to.equal('Switch');
+      });
+      it('has a prefix of ' + prefix + ' and a length of 19', function() {
+        expect(detectNetwork( prefix + cardSuffix.substring(0, 19 - prefix.length) )).to.equal('Switch');
+      });
+  });
+});
