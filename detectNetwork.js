@@ -60,5 +60,7 @@ var detectNetwork = function(cardNumber) {
   	return 'Switch';
   } else if (cardNumber.charAt(0) === '4' && [13, 16, 19].includes(cardNumber.length)) {
   	return 'Visa';
+  } else if ( (prefixInRange(622126, 622925) || prefixInRange(624, 626) || prefixInRange(6282, 6288)) && (cardNumber.length >= 16 && cardNumber.length <= 19) ) {
+  	return 'China UnionPay';
   }
  };
