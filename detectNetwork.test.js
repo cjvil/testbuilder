@@ -197,6 +197,24 @@ describe('Maestro', function() {
 describe('should support China UnionPay', function() {
   var expect = chai.expect;
 
+  // doesn't dynamically append the correct number of filler digits to prefix yet
+  // var generateTestsInPrefixRange = function(min, max) {
+  //   for(var prefix = min; prefix <= max; prefix++) {
+  //     (function(prefix) {
+  //       it('has a prefix of ' + prefix + ' and a length of 16', function() {
+  //         expect(detectNetwork(prefix + '1234567890123')).to.equal('China UnionPay');
+  //       });
+  //       it('has a prefix of ' + prefix + ' and a length of 19', function() {
+  //         expect(detectNetwork(prefix + '1234567890123')).to.equal('China UnionPay');
+  //       });
+  //     }(prefix))  
+  //   }
+  // }
+
+  // generateTestsInPrefixRange(622126, 622925);
+  // generateTestsInPrefixRange(624, 626);
+  // generateTestsInPrefixRange(6282, 6288);
+
   for(var prefix = 622126; prefix <= 622925; prefix++) {
     (function(prefix) {
       it('has a prefix of ' + prefix + ' and a length of 16', function() {
