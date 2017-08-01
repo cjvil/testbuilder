@@ -197,62 +197,28 @@ describe('Maestro', function() {
 describe('should support China UnionPay', function() {
   var expect = chai.expect;
 
-  // doesn't dynamically append the correct number of filler digits to prefix yet
-  // var generateTestsInPrefixRange = function(min, max) {
-  //   for(var prefix = min; prefix <= max; prefix++) {
-  //     (function(prefix) {
-  //       it('has a prefix of ' + prefix + ' and a length of 16', function() {
-  //         expect(detectNetwork(prefix + '1234567890123')).to.equal('China UnionPay');
-  //       });
-  //       it('has a prefix of ' + prefix + ' and a length of 19', function() {
-  //         expect(detectNetwork(prefix + '1234567890123')).to.equal('China UnionPay');
-  //       });
-  //     }(prefix))  
-  //   }
-  // }
-
-  // China UnionPay always has a prefix of 622126-622925, 624-626, or 6282-6288 and a length of 16-19.
-  // generateTestsInPrefixRange(622126, 622925);
-  // generateTestsInPrefixRange(624, 626);
-  // generateTestsInPrefixRange(6282, 6288);
-
   var suffix = '1234567890123456';
 
-  for(var prefix = 622126; prefix <= 622925; prefix++) {
-    (function(prefix) {
-      prefix = prefix.toString();
+  var generateTestsWithRanges = function(prefixMin, prefixMax, lenMin, lenMax) {
 
-      for(let len = 16; len <= 19; len++) {
-        it('has a prefix of ' + prefix + ' and a length of ' + len, function() {
-          expect(detectNetwork(prefix + suffix.substring(0, len - prefix.length))).to.equal('China UnionPay');
-        });
-      }
-    }(prefix))
+    for(var prefix = prefixMin; prefix <= prefixMax; prefix++) {
+      (function(prefix) {
+        prefix = prefix.toString();
+
+        for(let len = lenMin; len <= lenMax; len++) {
+          it('has a prefix of ' + prefix + ' and a length of ' + len, function() {
+            expect(detectNetwork(prefix + suffix.substring(0, len - prefix.length))).to.equal('China UnionPay');
+          });
+        }
+      }(prefix))
+    }
+
   }
 
-  for(var prefix = 624; prefix <= 626; prefix++) {
-    (function(prefix) {
-      prefix = prefix.toString();
-
-      for(let len = 16; len <= 19; len++) {
-        it('has a prefix of ' + prefix + ' and a length of ' + len, function() {
-          expect(detectNetwork(prefix + suffix.substring(0, len - prefix.length))).to.equal('China UnionPay');
-        });
-      }
-    }(prefix))
-  }
-
-  for(var prefix = 6282; prefix <= 6288; prefix++) {
-    (function(prefix) {
-      prefix = prefix.toString();
-
-      for(let len = 16; len <= 19; len++) {
-        it('has a prefix of ' + prefix + ' and a length of ' + len, function() {
-          expect(detectNetwork(prefix + suffix.substring(0, len - prefix.length))).to.equal('China UnionPay');
-        });
-      }
-    }(prefix))
-  }
+  generateTestsWithRanges(622126, 622925, 16, 19);
+  generateTestsWithRanges(624, 626, 16, 19);
+  generateTestsWithRanges(6282, 6288, 16, 19);
+  generateTestsWithRanges(622126, 622925, 16, 19);
 
 });
 
