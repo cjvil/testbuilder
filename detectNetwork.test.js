@@ -41,9 +41,10 @@ var FILL_ME_IN = 'Fill this value in';
     }
   });
 });*/
-describe('Diner\'s Club', function() {
-  // Be careful, tests can have bugs too...
+var expect = chai.expect;
+var suffix = '1234567890123456';
 
+describe('Diner\'s Club', function() {
   it('has a prefix of 38 and a length of 14', function() { 
     if (detectNetwork('38345678901234') !== 'Diner\'s Club') {
       throw new Error('Test failed');
@@ -102,7 +103,6 @@ describe('MasterCard', function() {
   // Expect syntax is one way to do this, but there are others. 
   // If you want to know more, check out the documentation. 
   //   http://chaijs.com/api/bdd/
-  var expect = chai.expect;
  
   it('has a prefix of 51 and a length of 16', function() {
     expect(detectNetwork('5112345678901234')).to.equal('MasterCard');
@@ -124,7 +124,6 @@ describe('MasterCard', function() {
   // and should, but that's just for learning), so once you've gotten 
   // these tests to pass using should syntax, refactor your tests to 
   // use either expect or should, but not both. 
-  var expect = chai.expect;
   
   it('has a prefix of 54 and a length of 16', function() {
     expect(detectNetwork('5412345678901234')).to.equal('MasterCard');
@@ -139,7 +138,6 @@ describe('MasterCard', function() {
 describe('Discover', function() {
   // Tests without a function will be marked as "pending" and not run
   // Implement these tests (and others) and make them pass!
-  var expect = chai.expect;
 
   it('has a prefix of 6011 and a length of 16', function() {
     expect(detectNetwork('6011123456789012')).to.equal('Discover');
@@ -168,8 +166,6 @@ describe('Discover', function() {
 
 describe('Maestro', function() {
   // Write full test coverage for the Maestro card
-  var expect = chai.expect;
-  var cardNumber = '012345678901234'
 
   for (var len = 12; len <= 19; len++) {
     (function(len) {
@@ -178,27 +174,24 @@ describe('Maestro', function() {
         // var num = '5018' + cardNumber.substring(0, len - 4);
         // console.log(num);
         // console.log(num.length);
-        expect(detectNetwork( '5018' + cardNumber.substring(0, len - 4) )).to.equal('Maestro');
+        expect(detectNetwork( '5018' + suffix.substring(0, len - 4) )).to.equal('Maestro');
       });
       it('has a prefix of 5020 and a length of ' + len.toString(), function() {
-        expect(detectNetwork( '5020' + cardNumber.substring(0, len - 4) )).to.equal('Maestro');
+        expect(detectNetwork( '5020' + suffix.substring(0, len - 4) )).to.equal('Maestro');
       });
       it('has a prefix of 5038 and a length of ' + len.toString(), function() {
-        expect(detectNetwork( '5038' + cardNumber.substring(0, len - 4) )).to.equal('Maestro');
+        expect(detectNetwork( '5038' + suffix.substring(0, len - 4) )).to.equal('Maestro');
       });
       it('has a prefix of 6304 and a length of ' + len.toString(), function() {
-        expect(detectNetwork( '6304' + cardNumber.substring(0, len - 4) )).to.equal('Maestro');
+        expect(detectNetwork( '6304' + suffix.substring(0, len - 4) )).to.equal('Maestro');
       });
     })(len)
   }
 
 });
 
+// China UnionPay always has a prefix of 622126-622925, 624-626, or 6282-6288 and a length of 16-19.
 describe('should support China UnionPay', function() {
-  var expect = chai.expect;
-
-  var suffix = '1234567890123456';
-
   var generateTestsWithRanges = function(prefixMin, prefixMax, lenMin, lenMax) {
 
     for(var prefix = prefixMin; prefix <= prefixMax; prefix++) {
@@ -212,30 +205,25 @@ describe('should support China UnionPay', function() {
         }
       }(prefix))
     }
-
   }
 
   generateTestsWithRanges(622126, 622925, 16, 19);
   generateTestsWithRanges(624, 626, 16, 19);
   generateTestsWithRanges(6282, 6288, 16, 19);
-  generateTestsWithRanges(622126, 622925, 16, 19);
-
 });
 
 describe('Switch', function() {
-  var expect = chai.expect;
   var prefixes = ['4903', '4905', '4911', '4936', '564182', '633110', '6333', '6759'];
-  var cardSuffix = '123456789012345';
 
   prefixes.forEach(function(prefix) {
       it('has a prefix of ' + prefix + ' and a length of 16', function() {
-        expect(detectNetwork( prefix + cardSuffix.substring(0, 16 - prefix.length) )).to.equal('Switch');
+        expect(detectNetwork( prefix + suffix.substring(0, 16 - prefix.length) )).to.equal('Switch');
       });
       it('has a prefix of ' + prefix + ' and a length of 18', function() {
-        expect(detectNetwork( prefix + cardSuffix.substring(0, 18 - prefix.length) )).to.equal('Switch');
+        expect(detectNetwork( prefix + suffix.substring(0, 18 - prefix.length) )).to.equal('Switch');
       });
       it('has a prefix of ' + prefix + ' and a length of 19', function() {
-        expect(detectNetwork( prefix + cardSuffix.substring(0, 19 - prefix.length) )).to.equal('Switch');
+        expect(detectNetwork( prefix + suffix.substring(0, 19 - prefix.length) )).to.equal('Switch');
       });
   });
 });
