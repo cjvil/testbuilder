@@ -165,15 +165,9 @@ describe('Discover', function() {
 });
 
 describe('Maestro', function() {
-  // Write full test coverage for the Maestro card
-
-  for (var len = 12; len <= 19; len++) {
+  for(var len = 12; len <= 19; len++) {
     (function(len) {
       it('has a prefix of 5018 and a length of ' + len.toString(), function() {
-        // confirm that generated number meets length requirements
-        // var num = '5018' + cardNumber.substring(0, len - 4);
-        // console.log(num);
-        // console.log(num.length);
         expect(detectNetwork( '5018' + suffix.substring(0, len - 4) )).to.equal('Maestro');
       });
       it('has a prefix of 5020 and a length of ' + len.toString(), function() {
