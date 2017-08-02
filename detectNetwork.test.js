@@ -42,7 +42,7 @@ var FILL_ME_IN = 'Fill this value in';
   });
 });*/
 var expect = chai.expect;
-var suffix = '1234567890123456';
+var suffix = '12345678901234567';
 
 describe('Diner\'s Club', function() {
   it('has a prefix of 38 and a length of 14', function() { 
@@ -138,18 +138,15 @@ describe('MasterCard', function() {
 describe('Discover', function() {
   // Tests without a function will be marked as "pending" and not run
   // Implement these tests (and others) and make them pass!
+  var len = ['16', '19'];
+  var prefixes = ['6011', '65'];
 
-  it('has a prefix of 6011 and a length of 16', function() {
-    expect(detectNetwork('6011123456789012')).to.equal('Discover');
-  });
-  it('has a prefix of 6011 and a length of 19', function() {
-    expect(detectNetwork('6011123456789012345')).to.equal('Discover');
-  });
-  it('has a prefix of 65 and a length of 16', function() {
-    expect(detectNetwork('6512345678901234')).to.equal('Discover');
-  });
-  it('has a prefix of 65 and a length of 19', function() {
-    expect(detectNetwork('6512345678901234567')).to.equal('Discover');
+  len.forEach(function(len) {
+    prefixes.forEach(function(prefix) {
+      it('has a prefix of ' + prefix + ' and a length of ' + len, function() {
+          expect(detectNetwork( prefix + suffix.substring(0, len - prefix.length) )).to.equal('Discover');
+      });
+    });
   });
 
   for(var prefix = 644; prefix <= 649; prefix++) {
@@ -165,23 +162,17 @@ describe('Discover', function() {
 });
 
 describe('Maestro', function() {
+  var prefixes = ['5018', '5020', '5038', '6304'];
+  
   for(var len = 12; len <= 19; len++) {
     (function(len) {
-      it('has a prefix of 5018 and a length of ' + len.toString(), function() {
-        expect(detectNetwork( '5018' + suffix.substring(0, len - 4) )).to.equal('Maestro');
-      });
-      it('has a prefix of 5020 and a length of ' + len.toString(), function() {
-        expect(detectNetwork( '5020' + suffix.substring(0, len - 4) )).to.equal('Maestro');
-      });
-      it('has a prefix of 5038 and a length of ' + len.toString(), function() {
-        expect(detectNetwork( '5038' + suffix.substring(0, len - 4) )).to.equal('Maestro');
-      });
-      it('has a prefix of 6304 and a length of ' + len.toString(), function() {
-        expect(detectNetwork( '6304' + suffix.substring(0, len - 4) )).to.equal('Maestro');
+      prefixes.forEach(function(prefix) {
+        it('has a prefix of ' + prefix + ' and a length of ' + len.toString(), function() {
+          expect(detectNetwork( prefix + suffix.substring(0, len - 4) )).to.equal('Maestro');
+        });
       });
     })(len)
   }
-
 });
 
 // China UnionPay always has a prefix of 622126-622925, 624-626, or 6282-6288 and a length of 16-19.
@@ -208,16 +199,13 @@ describe('should support China UnionPay', function() {
 
 describe('Switch', function() {
   var prefixes = ['4903', '4905', '4911', '4936', '564182', '633110', '6333', '6759'];
+  var lengths = ['16', '18', '19'];
 
   prefixes.forEach(function(prefix) {
-      it('has a prefix of ' + prefix + ' and a length of 16', function() {
-        expect(detectNetwork( prefix + suffix.substring(0, 16 - prefix.length) )).to.equal('Switch');
+    lengths.forEach(function(length) {
+      it('has a prefix of ' + prefix + ' and a length of ' + length, function() {
+        expect(detectNetwork( prefix + suffix.substring(0, length - prefix.length) )).to.equal('Switch');
       });
-      it('has a prefix of ' + prefix + ' and a length of 18', function() {
-        expect(detectNetwork( prefix + suffix.substring(0, 18 - prefix.length) )).to.equal('Switch');
-      });
-      it('has a prefix of ' + prefix + ' and a length of 19', function() {
-        expect(detectNetwork( prefix + suffix.substring(0, 19 - prefix.length) )).to.equal('Switch');
-      });
+    })
   });
 });
